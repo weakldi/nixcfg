@@ -5,7 +5,7 @@ let
 in {
     # TODO prime for laptop (with option)
     config = {
-              # Load nvidia driver for Xorg and Wayland
+        # Load nvidia driver for Xorg and Wayland
         services.xserver.videoDrivers = ["nvidia"]; # or "nvidiaLegacy470 etc.
         
         hardware.nvidia = {
@@ -43,6 +43,8 @@ in {
         # Hardware video de / encoding
         # test: nix-shell -p vdpauinfo
         # test: nix-shell -p libva-utils # for vainfo
+        # vainfo works: LIBVA_DRIVER_NAME=nvidia vainfo
+        # maybe set env varaible LIBVA_DRIVER_NAME=nvidia
         hardware.opengl = {
             extraPackages = with pkgs; [
                 #intel-media-driver # LIBVA_DRIVER_NAME=iHD
@@ -50,6 +52,6 @@ in {
                 vaapiVdpau
                 #libvdpau-va-gl
             ];
-        }
+        };
     };
 }

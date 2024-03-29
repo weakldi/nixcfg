@@ -84,6 +84,7 @@ in
     pkgs.eclipses.eclipse-cpp
     pkgs.gcc
     pkgs.steam
+    pkgs.logisim-evolution
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
