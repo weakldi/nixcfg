@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       host-name-pc = "kristian-pc";
