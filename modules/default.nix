@@ -11,10 +11,14 @@
 {
   imports = [
     ./copyConfig.nix
+    ./networkFileSystems.nix
+    ./nvidia.nix
   ];
 
   config.copyConfig = {
-    enable = true;
+    enable = lib.mkDefault true;
     configPath = ../.;
   };
+
+  config.networkMounts.enable = lib.mkDefault true;
 }
