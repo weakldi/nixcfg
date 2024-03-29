@@ -174,12 +174,6 @@
     sshfs
    ];
 
-  boot.initrd = {
-    supportedFilesystems = [ "nfs" ];
-    kernelModules = [ "nfs" ];
-  };
-  # for wine (Target 3001) and 32 bit apps
-  hardware.opengl.driSupport32Bit = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -209,41 +203,12 @@
     SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0660", TAG+="uaccess", GROUP="1000",OWNER="1000"
   '';
 
-  services.nfs.server.enable = true;
-  # make directory for nfs mount
-  system.activationScripts.mkdirNFS = ''
-    mkdir -p /mnt/nfs/public
-    mkdir -p /mnt/nfs/kristian
-  '';
 
-  # mount NAS with nfs
-  fileSystems."/mnt/nfs/public" = {
-    device = "192.168.178.40:/nfs/Public";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-      "x-systemd.idle-timeout=600"
-    ];
-  };
-
-  fileSystems."/mnt/nfs/kristian" = {
-    device = "192.168.178.40:/nfs/kristian";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "noauto"
-      "x-systemd.idle-timeout=600"
-    ];
-  };
 
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [
-      #intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      #vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
+    # for wine (Target 3001) and 32 bit apps
+    # 32bit steam games ...
+    driSupport32Bit = true;
   };
 }
