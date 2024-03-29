@@ -13,6 +13,8 @@
     ./copyConfig.nix
     ./networkFileSystems.nix
     ./nvidia.nix
+    inputs.home-manager.nixosModules.home-manager
+    inputs.spos-nix.nixosModules.sops
   ];
 
   config.copyConfig = {

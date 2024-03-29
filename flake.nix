@@ -2,6 +2,12 @@
   description = "Nixos config flake";
 
   inputs = {
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils.url = "github:numtide/flake-utils"; # for devshells
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
@@ -11,7 +17,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       host-name-pc = "kristian-pc";
