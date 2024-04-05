@@ -83,8 +83,10 @@ in
 
     pkgs.eclipses.eclipse-cpp
     pkgs.gcc
-    pkgs.steam
     pkgs.logisim-evolution
+    pkgs.sops
+    pkgs.ventoy
+    pkgs.prismlauncher-qt5
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

@@ -67,4 +67,11 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
+  # ========= SOPS =======
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+
+  sops.age.generateKey = true;
+  sops.age.keyFile = "/home/kristian/.config/sops/age/keys.txt";
+  sops.secrets.testValue = {};
 }

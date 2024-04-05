@@ -18,10 +18,10 @@
       home-manager
       git
 
-      #sops
-      #ssh-to-age
+      sops
+      ssh-to-age
       #gnupg
-      #age
+      age
     ];
 
     shellHook = ''
