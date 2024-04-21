@@ -174,10 +174,19 @@
     # Steam
     steam-run
     steam-tui
+    # nix helper
+    nh
+    nix-output-monitor
+    nvd
    ];
+
+  # ENV for nix-helper
+  environment.sessionVariables = {
+    FLAKE = toString(../.);
+  };
   
   # ============= STEAM ==============
-
+  programs.hyprland.enable = true;
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
