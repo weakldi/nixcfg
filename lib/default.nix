@@ -3,6 +3,9 @@
 let
  myLib = (import ./default.nix) {inherit inputs;};
  outputs = inputs.self.outputs;
+
+ 
+
 in rec{
     lib = inputs.nixpkgs.lib;
     #====== Dir and file functions =======
@@ -23,13 +26,19 @@ in rec{
 
     attribute = name: value: {"${name}" = value;};
     # ============ pkg functions =========
+    pkgsUnstable = sys: import inputs.nixpkgs-unstable {
+        system = sys;
+        config.allowUnfree = true;
+    };
     # Function: (System [String]) -> pkgs
     pkgsFor = sys: import inputs.nixpkgs {
         system = sys;
         config.allowUnfree = true;
     };
 
-
+    overlay-unstable = sys: prev: final: {
+        unstable = pkgsUnstable sys;
+    };
     # Function to define a Nixosconfig
     # sys: Systemstring bsp.: x86_64-linux
     # config: Path to configfile
@@ -40,6 +49,7 @@ in rec{
                 inherit inputs outputs myLib;
             };
             modules = [
+                ({config, pkgs, ...}: {nixpkgs.overlays = [(overlay-unstable sys)];})
                 ../hosts/common.nix
                 config
                 outputs.nixosModules.default # ???

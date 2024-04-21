@@ -175,14 +175,14 @@
     steam-run
     steam-tui
     # nix helper
-    nh
+    unstable.nh
     nix-output-monitor
     nvd
    ];
 
   # ENV for nix-helper
   environment.sessionVariables = {
-    FLAKE = toString(../.);
+    FLAKE = ../.;
   };
   
   # ============= STEAM ==============
