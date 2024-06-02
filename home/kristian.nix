@@ -86,7 +86,7 @@ in
     pkgs.logisim-evolution
     pkgs.sops
     pkgs.ventoy
-    pkgs.prismlauncher-qt5
+    pkgs.prismlauncher
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

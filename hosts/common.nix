@@ -39,9 +39,9 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "de";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Configure console keymap
@@ -51,7 +51,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
   services.printing.drivers = [ pkgs.brlaser pkgs.cups-brother-hll3230cdw ];
   # for a WiFi printer
   services.avahi.openFirewall = true;
