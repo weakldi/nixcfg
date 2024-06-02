@@ -178,11 +178,13 @@
     unstable.nh
     nix-output-monitor
     nvd
+    mono
+    barrier
    ];
 
   # ENV for nix-helper
   environment.sessionVariables = {
-    FLAKE = ../.;
+    FLAKE = builtins.toString ../.;
   };
   
   # ============= STEAM ==============
@@ -207,8 +209,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 4242 24800]; # pico-examples (barrier kvm maus)
+  networking.firewall.allowedUDPPorts = [ 1234]; # pi pico udp
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -228,5 +230,10 @@
     # for wine (Target 3001) and 32 bit apps
     # 32bit steam games ...
     driSupport32Bit = true;
+  };
+
+  services.rkvm.server = {
+    enable = true;
+    settings.password = "qwert";
   };
 }
