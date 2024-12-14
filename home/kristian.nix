@@ -34,6 +34,10 @@ in
   programs.home-manager.enable = true;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
+
+  programs.kdeconnect.enable = true;
+
+
   home.username = "kristian";
   home.homeDirectory = "/home/kristian";
 
