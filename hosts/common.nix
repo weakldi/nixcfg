@@ -57,7 +57,7 @@
   services.avahi.openFirewall = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -228,11 +228,11 @@
 
 
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     # for wine (Target 3001) and 32 bit apps
     # 32bit steam games ...
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   services.rkvm.server = {

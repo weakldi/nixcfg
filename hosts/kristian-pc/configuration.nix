@@ -51,12 +51,15 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  
+  # ============= GPU Acceleraton (in hosts/common) ============
+
+  ## Enable OpenGL
+  #hardware.opengl = {
+  #  enable = true;
+  #  #driSupport = true;
+  #  driSupport32Bit = true;
+  #};
 
  
   # This value determines the NixOS release from which the default
@@ -65,7 +68,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
   # ========= SOPS =======
   sops.defaultSopsFile = ./secrets.yaml;
