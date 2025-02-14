@@ -78,10 +78,25 @@
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true; # virt-manager requires dconf to remember settings
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.rootless = {
-    enable = false;
-    setSocketVariable = true;
+  
+  hardware.nvidia-container-toolkit.enable = true;
+  virtualisation.docker = {
+      enable = true;
+		  enableOnBoot = false;
+		  
+
+      rootless = {
+        enable = false;
+        setSocketVariable = true;
+      };
+
+      daemon.settings = {
+				runtimes = {
+					nvidia = {
+          	path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime";
+          };
+				};
+      };
   };
   # Android
   programs.adb.enable = true;
@@ -180,6 +195,13 @@
     nvd
     mono
     barrier
+
+    # Office
+    softmaker-office
+    onlyoffice-bin
+    wpsoffice
+
+    nvidia-container-toolkit
    ];
 
   # ENV for nix-helper

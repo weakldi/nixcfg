@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, pkgs, ... }:
+{ inputs, outputs, blender, lib, pkgs, ... }:
 let
   tex = (pkgs.texlive.combine {
     inherit (pkgs.texlive) scheme-full
@@ -92,6 +92,8 @@ in
     pkgs.prismlauncher
 
     pkgs.kicad
+    
+    pkgs.blender_3_6
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

@@ -45,7 +45,7 @@ in {
         # test: nix-shell -p libva-utils # for vainfo
         # vainfo works: LIBVA_DRIVER_NAME=nvidia vainfo
         # maybe set env varaible LIBVA_DRIVER_NAME=nvidia
-        hardware.opengl = {
+        hardware.graphics = {
             extraPackages = with pkgs; [
                 #intel-media-driver # LIBVA_DRIVER_NAME=iHD
                 #vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)

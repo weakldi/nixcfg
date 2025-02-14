@@ -34,6 +34,9 @@ in rec{
     pkgsFor = sys: import inputs.nixpkgs {
         system = sys;
         config.allowUnfree = true;
+        overlays = [
+            inputs.blender.overlays.default
+        ];
     };
 
     overlay-unstable = sys: prev: final: {
