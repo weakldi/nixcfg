@@ -96,6 +96,9 @@ in
     pkgs.blender_3_6
 
     pkgs.zoom-us
+
+    pkgs.texstudio
+    pkgs.texmaker
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

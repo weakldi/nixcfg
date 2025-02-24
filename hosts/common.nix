@@ -262,8 +262,4 @@
     enable32Bit = true;
   };
 
-  services.rkvm.server = {
-    enable = true;
-    settings.password = "qwert";
-  };
 }
