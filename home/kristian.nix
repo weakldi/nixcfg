@@ -94,6 +94,8 @@ in
     pkgs.kicad
     
     pkgs.blender_3_6
+
+    pkgs.zoom-us
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
