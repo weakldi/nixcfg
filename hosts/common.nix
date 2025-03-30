@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-
+let
+ 
+  in
 {
   #cachix
   #imports = [ ./cachix.nix ];
@@ -8,6 +10,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   nix.extraOptions = ''
+        trusted-users = root kristian
         extra-substituters = https://nixpkgs-python.cachix.org
         extra-trusted-public-keys = nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU= devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
     '';
@@ -119,7 +122,7 @@
       thunderbird
       vscode
       mpv
-      vlc
+      vlc    
      ];
   };
 
@@ -180,7 +183,7 @@
     wineWowPackages.waylandFull
 
     #Python
-    python3
+    #python3
     #python3Packages.tensorflowWithCuda
     docker
     virt-manager

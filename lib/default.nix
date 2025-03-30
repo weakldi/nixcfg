@@ -36,12 +36,14 @@ in rec{
         config.allowUnfree = true;
         overlays = [
             inputs.blender.overlays.default
+            (import ../overlays/spyder-overlay.nix)
         ];
     };
 
     overlay-unstable = sys: prev: final: {
         unstable = pkgsUnstable sys;
     };
+
     # Function to define a Nixosconfig
     # sys: Systemstring bsp.: x86_64-linux
     # config: Path to configfile

@@ -25,8 +25,35 @@ let
   python_packages = ps : with ps; [
     nltk
     pyusb
-  ];
+    jupyter
+    ipython
+    ipywidgets
+    ipympl
+    pandas
+    chart-studio
 
+    numpy
+    matplotlib
+    scipy
+    spyder-kernels
+    jupyterlab
+    conda
+  ];
+  
+  spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
+        buildInputs = oldAttrs.buildInputs ++ [
+            pkgs.python3  # Oder eine andere Python-Version
+            pkgs.python3Packages.spyder-kernels
+            pkgs.python3Packages.jupyter
+            
+        ];
+        propagatedBuildInputs = oldAttrs.propagatedBuildInputs or [] ++ [
+            pkgs.python3Packages.spyder-kernels
+            pkgs.python3Packages.jupyter
+        ];
+    }
+
+  );
   octave_pkgs = opkgs: with opkgs; [signal];
 in
 {
@@ -78,7 +105,7 @@ in
     #spellcheck for libreoffice
     pkgs.hunspell
     pkgs.hunspellDicts.de_DE
-    (pkgs.python3.withPackages python_packages)
+   
     #pipewire audio graph
     pkgs.qpwgraph
     # octave Signalprocessing
@@ -99,6 +126,12 @@ in
 
     pkgs.texstudio
     pkgs.texmaker
+    (pkgs.python3.withPackages python_packages)
+    pkgs.nodejs # für jupyter-lab
+    (spyder-custom pkgs)
+
+
+    
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
