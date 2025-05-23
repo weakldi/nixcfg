@@ -35,7 +35,7 @@ in rec{
         system = sys;
         config.allowUnfree = true;
         overlays = [
-            inputs.blender.overlays.default
+            #inputs.blender.overlays.default
             (import ../overlays/spyder-overlay.nix)
         ];
     };

@@ -84,7 +84,7 @@ let
   # services.xserver.libinput.enable = true;
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true; # virt-manager requires dconf to remember settings
-
+  programs.nix-ld.enable = true;
   
   hardware.nvidia-container-toolkit.enable = true;
   virtualisation.docker = {
@@ -214,7 +214,7 @@ let
 
   # ENV for nix-helper
   environment.sessionVariables = {
-    FLAKE = builtins.toString ../.;
+    #FLAKE = builtins.toString ../.;
   };
   
   # ============= STEAM ==============

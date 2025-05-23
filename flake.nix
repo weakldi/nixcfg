@@ -19,16 +19,16 @@
     hyprland.url = "github:hyprwm/Hyprland";
 
     #https://github.com/edolstra/nix-warez/blob/master/blender/flake.nix
-    blender = {
-      url = "path:./packages/blender";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #blender = {
+    #  url = "path:./packages/blender";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
-    blender-bin.url = "https://flakehub.com/f/edolstra/blender-bin/1.0.12.tar.gz";
+    #blender-bin.url = "https://flakehub.com/f/edolstra/blender-bin/1.0.12.tar.gz";
 
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, nixpkgs-unstable, blender, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland, nixpkgs-unstable, ... }@inputs:
     let
       system = "x86_64-linux";
       host-name-pc = "kristian-pc";

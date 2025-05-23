@@ -1,0 +1,7 @@
+keys:
+  - &pc age1jy0cx3c5mu5f75v5zkxtawemf6j2se0ryepdrs50qhhmxpc0dudq9f7k7q
+creation_rules:
+  - path_regex: hosts/kristian-pc/secrets.yaml
+    key_groups:
+      - age:
+        - *pc

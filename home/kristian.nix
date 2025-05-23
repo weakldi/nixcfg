@@ -1,4 +1,4 @@
-{ inputs, outputs, blender, lib, pkgs, ... }:
+{ inputs, outputs, lib, pkgs, ... }:
 let
   tex = (pkgs.texlive.combine {
     inherit (pkgs.texlive) scheme-full
@@ -38,6 +38,11 @@ let
     spyder-kernels
     jupyterlab
     conda
+
+    torch-bin
+    torchvision-bin
+    #tensorflow
+    #keras
   ];
   
   spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
@@ -120,7 +125,7 @@ in
 
     pkgs.kicad
     
-    pkgs.blender_3_6
+    #pkgs.blender_3_6
 
     pkgs.zoom-us
 
@@ -128,9 +133,9 @@ in
     pkgs.texmaker
     (pkgs.python3.withPackages python_packages)
     pkgs.nodejs # für jupyter-lab
-    (spyder-custom pkgs)
+    #(spyder-custom pkgs)
 
-
+    pkgs.spyder
     
   ];
 
