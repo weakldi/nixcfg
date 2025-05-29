@@ -29,11 +29,13 @@ in rec{
     pkgsUnstable = sys: import inputs.nixpkgs-unstable {
         system = sys;
         config.allowUnfree = true;
+        config.allowUnfreePredicate = (_: true);
     };
     # Function: (System [String]) -> pkgs
     pkgsFor = sys: import inputs.nixpkgs {
         system = sys;
         config.allowUnfree = true;
+        config.allowUnfreePredicate = (_: true);
         overlays = [
             #inputs.blender.overlays.default
             (import ../overlays/spyder-overlay.nix)
@@ -56,7 +58,7 @@ in rec{
             modules = [
                 ({config, pkgs, ...}: {nixpkgs.overlays = [(overlay-unstable sys)];})
                 ../hosts/common.nix
-                config
+                config 
                 outputs.nixosModules.default # ???
 
             ];
@@ -70,10 +72,12 @@ in rec{
             extraSpecialArgs = {
                 inherit inputs myLib outputs;
             };
+            
             pkgs = pkgsFor sys;
+            
             modules = [
-                config
-                outputs.homeManagerModules.default
+                config                
+                outputs.homeManagerModules.default              
             ];
         };
 

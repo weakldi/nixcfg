@@ -65,7 +65,7 @@ let
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -210,6 +210,11 @@ let
     wpsoffice
 
     nvidia-container-toolkit
+
+    # Hardware / CPU-Fan / Temp
+    lm_sensors
+    fancontrol
+    pwmconfig
    ];
 
   # ENV for nix-helper

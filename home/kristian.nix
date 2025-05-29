@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, pkgs, ... }:
+{ inputs, outputs, lib, pkgs, home-manager, nixpkgs,... }:
 let
   tex = (pkgs.texlive.combine {
     inherit (pkgs.texlive) scheme-full
@@ -41,8 +41,8 @@ let
 
     torch-bin
     torchvision-bin
-    #tensorflow
-    #keras
+    tensorflow
+    keras
   ];
   
   spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
@@ -66,7 +66,6 @@ in
   programs.home-manager.enable = true;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-
 
 
   home.username = "kristian";
@@ -120,7 +119,6 @@ in
     pkgs.gcc
     pkgs.logisim-evolution
     pkgs.sops
-    pkgs.ventoy
     pkgs.prismlauncher
 
     pkgs.kicad
@@ -136,6 +134,8 @@ in
     #(spyder-custom pkgs)
 
     pkgs.spyder
+
+    pkgs.remmina
     
   ];
 
