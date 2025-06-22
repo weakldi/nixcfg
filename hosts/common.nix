@@ -213,8 +213,6 @@ let
 
     # Hardware / CPU-Fan / Temp
     lm_sensors
-    fancontrol
-    pwmconfig
    ];
 
   # ENV for nix-helper

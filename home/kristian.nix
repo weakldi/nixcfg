@@ -33,6 +33,7 @@ let
     chart-studio
 
     numpy
+    numdifftools
     matplotlib
     scipy
     spyder-kernels
