@@ -116,7 +116,7 @@ let
   users.users.kristian = {
     isNormalUser = true;
     description = "kristian Minderer";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd" "dialout"];
     packages = with pkgs; [
       firefox
       thunderbird
@@ -156,7 +156,7 @@ let
     unzip
     gnutar
     file
-    devenv
+    #devenv
     # openconnect vpn for vpn-fh-muenster.de
     openconnect
     #android backup extractor
@@ -213,6 +213,13 @@ let
 
     # Hardware / CPU-Fan / Temp
     lm_sensors
+
+    # Logic analyzer pico
+    pulseview
+    arduino-ide
+
+    # mqtt
+    mosquitto
    ];
 
   # ENV for nix-helper

@@ -44,6 +44,8 @@ let
     torchvision-bin
     tensorflow
     keras
+
+    paho-mqtt
   ];
   
   spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
