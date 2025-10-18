@@ -18,6 +18,8 @@
     };
     hyprland.url = "github:hyprwm/Hyprland";
 
+
+
     #https://github.com/edolstra/nix-warez/blob/master/blender/flake.nix
     #blender = {
     #  url = "path:./packages/blender";

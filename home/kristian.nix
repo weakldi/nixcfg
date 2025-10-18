@@ -23,6 +23,11 @@ let
   });
 
   python_packages = ps : with ps; [
+    pip
+    pybind11
+    psutil
+    pytest
+
     nltk
     pyusb
     jupyter
@@ -46,6 +51,8 @@ let
     keras
 
     paho-mqtt
+    python-openems
+    h5py
   ];
   
   spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
@@ -139,6 +146,10 @@ in
     pkgs.spyder
 
     pkgs.remmina
+
+    #openems
+    pkgs.appcsxcad
+    pkgs.hyp2mat
     
   ];
 

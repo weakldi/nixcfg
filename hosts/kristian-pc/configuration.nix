@@ -29,7 +29,7 @@
   services.desktopManager.plasma6.enable = true;
   boot.initrd = {
     supportedFilesystems = [ "nfs" ];
-    kernelModules = [ "nfs" ];
+    kernelModules = [ "nfs" "iptable_nat" ];
   };
 
 

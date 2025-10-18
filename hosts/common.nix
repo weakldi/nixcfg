@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs,winboat, ... }:
 let
  
   in
@@ -56,10 +56,12 @@ let
 
   # printing
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.brlaser pkgs.cups-brother-hll3230cdw pkgs.cups-filters];
+  };
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
-  services.printing.drivers = [ pkgs.brlaser pkgs.cups-brother-hll3230cdw ];
   # for a WiFi printer
   services.avahi.openFirewall = true;
 
@@ -107,7 +109,13 @@ let
   };
   # Android
   programs.adb.enable = true;
-
+  programs.java = {
+    enable = true;
+    package = pkgs.jdk23.override { 
+      enableJavaFX = true; 
+      openjfx_jdk = pkgs.openjfx23;#.override { withWebKit = true; };
+    };
+  };
   virtualisation.waydroid = {
     enable = true;
   };
@@ -122,7 +130,12 @@ let
       thunderbird
       vscode
       mpv
-      vlc    
+      vlc 
+      jetbrains.clion   
+      jetbrains.pycharm-community
+      devenv
+      openems
+      mattermos-desktop
      ];
   };
 
@@ -220,6 +233,26 @@ let
 
     # mqtt
     mosquitto
+
+    # IDEs
+    netbeans
+    #zulu24
+
+    nil # lsp für nix
+
+    # gz
+   # ogre
+    cmake
+    tinyxml-2
+    urdfdom
+    spdlog
+    pkg-config
+
+    #winboat
+    freerdp
+    docker-compose
+    docker
+    appimage-run
    ];
 
   # ENV for nix-helper
@@ -250,10 +283,44 @@ let
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
+  services.mosquitto = {
+    enable = true;
+    logType = ["all"];
+    listeners = [
+      
+      {
+        port = 1884;
+        acl = [ "pattern readwrite #" ];
+        omitPasswordAuth = true;
+        settings.allow_anonymous = true;
+        
+      }
+    ];
+   
+  };
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 4242 24800]; # pico-examples (barrier kvm maus)
-  networking.firewall.allowedUDPPorts = [ 1234]; # pi pico udp
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 
+      4242 # pico-examples 
+      24800 #(barrier kvm maus) 
+      1883 # mosquitto normal
+      1884 # mosquitto local
+      8080 
+      8081
+      631 # ipp printing
+    ]; 
+    allowedUDPPorts = [ 1234]; # pi pico udp
+
+    # Allow Gazebo transport ports locally
+    allowedTCPPortRanges = [
+      { from = 11345; to = 11445; }
+    ];
+    allowedUDPPortRanges = [
+      { from = 11345; to = 11445; }
+    ];
+
+  };
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -264,6 +331,11 @@ let
 
     # Arduino Uno
     SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0660", TAG+="uaccess", GROUP="1000",OWNER="1000"
+
+    # Espressif USB JTAG/serial debug units
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="1000",OWNER="1000"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1002", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="1000",OWNER="1000"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", SYMLINK+="usb-esp32-c6"
   '';
 
 
