@@ -135,7 +135,7 @@ let
       jetbrains.pycharm-community
       devenv
       openems
-      mattermos-desktop
+      mattermost-desktop
      ];
   };
 
