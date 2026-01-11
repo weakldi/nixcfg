@@ -40,7 +40,9 @@ let
     numpy
     numdifftools
     matplotlib
+    sympy
     scipy
+    sounddevice
     spyder-kernels
     jupyterlab
     conda
@@ -55,20 +57,13 @@ let
     h5py
   ];
   
-  spyder-custom = pkgs: pkgs.spyder.overrideAttrs (oldAttrs: {
-        buildInputs = oldAttrs.buildInputs ++ [
-            pkgs.python3  # Oder eine andere Python-Version
-            pkgs.python3Packages.spyder-kernels
-            pkgs.python3Packages.jupyter
-            
-        ];
-        propagatedBuildInputs = oldAttrs.propagatedBuildInputs or [] ++ [
-            pkgs.python3Packages.spyder-kernels
-            pkgs.python3Packages.jupyter
-        ];
-    }
-
-  );
+  myPython = pkgs.python312.override {
+    packageOverrides = self: super: {
+      paho-mqtt = super.paho-mqtt.overridePythonAttrs (oldAttrs: {
+        doCheck = false; # This skips the failing pytest suite
+      });
+    };
+  };
   octave_pkgs = opkgs: with opkgs; [signal];
 in
 {
@@ -88,7 +83,7 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+  home.stateVersion = "25.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -139,11 +134,10 @@ in
 
     pkgs.texstudio
     pkgs.texmaker
-    (pkgs.python3.withPackages python_packages)
+    (myPython.withPackages python_packages)
     pkgs.nodejs # für jupyter-lab
-    #(spyder-custom pkgs)
+    
 
-    pkgs.spyder
 
     pkgs.remmina
 

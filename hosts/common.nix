@@ -80,11 +80,41 @@ let
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+    wireplumber.extraConfig."10-bluez" = {
+      "monitor.bluez.properties" = {
+        "bluez5.enable-sbc-xq" = true;
+        "bluez5.enable-msbc" = true;
+        "bluez5.enable-hw-volume" = true;
+        "bluez5.roles" = [
+          "hsp_hs"
+          "hsp_ag"
+          "hfp_hf"
+          "hfp_ag"
+        ];
+      };
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm; # Ensures KVM support
+      swtpm.enable = true;
+     
+      vhostUserPackages = [ pkgs.virtiofsd ];
+      
+      
+      # Use this to ensure the virtual machine can access your hardware drivers
+      verbatimConfig = ''
+        display_sdl = "yes"
+        display_gtk = "yes"
+      '';
+    };
+  };
+  services.spice-vdagentd.enable = true;
+
   programs.dconf.enable = true; # virt-manager requires dconf to remember settings
   programs.nix-ld.enable = true;
   
@@ -111,10 +141,7 @@ let
   programs.adb.enable = true;
   programs.java = {
     enable = true;
-    package = pkgs.jdk23.override { 
-      enableJavaFX = true; 
-      openjfx_jdk = pkgs.openjfx23;#.override { withWebKit = true; };
-    };
+    package = pkgs.jdk25;
   };
   virtualisation.waydroid = {
     enable = true;
@@ -124,7 +151,7 @@ let
   users.users.kristian = {
     isNormalUser = true;
     description = "kristian Minderer";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd" "dialout"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd" "kvm" "dialout" "video" "render"];
     packages = with pkgs; [
       firefox
       thunderbird
@@ -132,10 +159,20 @@ let
       mpv
       vlc 
       jetbrains.clion   
-      jetbrains.pycharm-community
+      jetbrains.pycharm
+      jetbrains.idea
+      jetbrains.datagrip
       devenv
       openems
       mattermost-desktop
+      pavucontrol
+
+      # pico
+      pico-sdk
+
+      # Database stuff
+      dbeaver-bin
+      mysql84
      ];
   };
 
@@ -163,7 +200,7 @@ let
     wget
     sl
     git
-    libsForQt5.kate
+    kdePackages.kate
     htop
     distrobox
     unzip
@@ -200,6 +237,7 @@ let
     #python3Packages.tensorflowWithCuda
     docker
     virt-manager
+    virtiofsd
     gnumake
 
     nfs-utils
@@ -215,12 +253,11 @@ let
     nix-output-monitor
     nvd
     mono
-    barrier
 
     # Office
-    softmaker-office
-    onlyoffice-bin
-    wpsoffice
+    #softmaker-office
+    #onlyoffice-desktopeditors
+    #wpsoffice
 
     nvidia-container-toolkit
 
@@ -326,18 +363,18 @@ let
 
   # udev rules for kernel programming
   services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="cafe", ATTRS{idProduct}=="1234", MODE="0660", TAG+="uaccess", GROUP="1000",OWNER="1000"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="cafe", ATTRS{idProduct}=="1234", MODE="0660", TAG+="uaccess", GROUP="users"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="cafe", ATTRS{idProduct}=="1234", MODE="0660", SYMLINK+="usb-ws2812"
 
     # Arduino Uno
-    SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0660", TAG+="uaccess", GROUP="1000",OWNER="1000"
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0660", TAG+="uaccess", GROUP="users"
 
     # Espressif USB JTAG/serial debug units
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="1000",OWNER="1000"
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1002", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="1000",OWNER="1000"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="users"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1002", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="users"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", SYMLINK+="usb-esp32-c6"
   '';
-
+  services.udev.packages = [ pkgs.picotool ];
 
 
   hardware.graphics = {
