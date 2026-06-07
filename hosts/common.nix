@@ -3,6 +3,7 @@ let
  
   in
 {
+
   #cachix
   #imports = [ ./cachix.nix ];
 
@@ -151,17 +152,17 @@ let
   users.users.kristian = {
     isNormalUser = true;
     description = "kristian Minderer";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd" "kvm" "dialout" "video" "render"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "libvirtd" "kvm" "dialout" "video" "render" "plugdev"];
     packages = with pkgs; [
       firefox
       thunderbird
       vscode
       mpv
       vlc 
-      jetbrains.clion   
-      jetbrains.pycharm
-      jetbrains.idea
-      jetbrains.datagrip
+      #jetbrains.clion   
+      #jetbrains.pycharm
+      #jetbrains.idea
+      #jetbrains.datagrip
       devenv
       openems
       mattermost-desktop
@@ -171,8 +172,10 @@ let
       pico-sdk
 
       # Database stuff
-      dbeaver-bin
-      mysql84
+      #dbeaver-bin
+      #mysql84
+
+      opencode
      ];
   };
 
@@ -191,8 +194,8 @@ let
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
-
-
+  # Verhindert, dass NixOS das vboxnet0-Interface erzwingt (nh os switch funktioniert so nicht)
+  virtualisation.virtualbox.host.addNetworkInterface = false; # 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -210,9 +213,9 @@ let
     # openconnect vpn for vpn-fh-muenster.de
     openconnect
     #android backup extractor
-    android-backup-extractor
+    #android-backup-extractor
     # waydroid x11
-    weston
+    #weston
     # support both 32- and 64-bit applications
     wineWowPackages.stable
 
@@ -252,7 +255,7 @@ let
     unstable.nh
     nix-output-monitor
     nvd
-    mono
+    #mono
 
     # Office
     #softmaker-office
@@ -263,16 +266,17 @@ let
 
     # Hardware / CPU-Fan / Temp
     lm_sensors
+    btop
 
     # Logic analyzer pico
     pulseview
-    arduino-ide
+    #arduino-ide
 
     # mqtt
     mosquitto
 
     # IDEs
-    netbeans
+    #netbeans
     #zulu24
 
     nil # lsp für nix
@@ -290,7 +294,26 @@ let
     docker-compose
     docker
     appimage-run
+    gemini-cli
+    pulseview
+    sigrok-cli
+
+    qucs-s
+    ngspice # simulationsbackend für qucs-s
+    qucsator-rf
+    xyce # xyce-parallel  nur für riesige Schaltungen
+
+    (kicad.override {
+      python3 = python3.withPackages (ps: with ps; [ 
+        pyclipper 
+      ]);
+    })
    ];
+  
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
 
   # ENV for nix-helper
   environment.sessionVariables = {
@@ -365,6 +388,10 @@ let
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTRS{idVendor}=="cafe", ATTRS{idProduct}=="1234", MODE="0660", TAG+="uaccess", GROUP="users"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="cafe", ATTRS{idProduct}=="1234", MODE="0660", SYMLINK+="usb-ws2812"
+    
+    # PICO Probe
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="000c", MODE="0666", TAG+="uaccess", GROUP="users"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="000c", MODE="0666", SYMLINK+="pico-probe"
 
     # Arduino Uno
     SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", MODE="0660", TAG+="uaccess", GROUP="users"
@@ -373,8 +400,24 @@ let
     SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="users"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1002", MODE="0660", GROUP="plugdev", TAG+="uaccess", GROUP="users"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", MODE="0660", SYMLINK+="usb-esp32-c6"
+  
+    # Efinix USB Programmer (FTDI)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6014", MODE="666", TAG+="uaccess", GROUP="plugdev", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+    # FTDI other (Fixed the dot here)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="666", TAG+="uaccess", GROUP="plugdev", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+    # FT4232H
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6011", MODE="666", TAG+="uaccess", GROUP="plugdev"
+
+    # FT4232HA
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6048", MODE="666", TAG+="uaccess", GROUP="plugdev"
+
+    # Wichtig: Auch den TTY-Layer für ModemManager sperren
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6014", ENV{ID_MM_DEVICE_IGNORE}="1"
   '';
-  services.udev.packages = [ pkgs.picotool ];
+  services.udev.packages = [ pkgs.picotool pkgs.libsigrok];
+
 
 
   hardware.graphics = {

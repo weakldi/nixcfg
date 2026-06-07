@@ -126,7 +126,7 @@ in
     pkgs.sops
     pkgs.prismlauncher
 
-    pkgs.kicad
+    
     
     #pkgs.blender_3_6
 

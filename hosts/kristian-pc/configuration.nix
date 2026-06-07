@@ -32,6 +32,11 @@
     kernelModules = [ "nfs" "iptable_nat" ];
   };
 
+  # Asus lüfter usw
+  # nct6775 = Nuvoton Lüftersteuerung, asus_ec_sensors = ASUS Spezial-Temperaturen
+  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
+  boot.kernelModules = [ "nct6775" "asus_ec_sensors" ];
+  programs.coolercontrol.enable = true; # 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -70,6 +75,32 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      valkey = prev.valkey.overrideAttrs (oldAttrs: {
+        doCheck = false; # Disables the test suite to prevent build failure
+      });
+    })
+  ];
+
+  services.ollama = {
+    enable = true;
+    # Optional: preload models, see https://ollama.com/library
+    loadModels = [ "llama3.2:3b" "deepseek-r1:1.5b"];
+    acceleration = "cuda"; 
+  };
+
+  # 4. Enable the Open WebUI service
+  services.open-webui = {
+    enable = true;
+    port = 8888;
+    host = "0.0.0.0";
+    openFirewall = true; 
+    
+    environment = {
+      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+    };
+  };
   # ========= SOPS =======
   sops.defaultSopsFile = ./secrets.yaml;
   sops.defaultSopsFormat = "yaml";
