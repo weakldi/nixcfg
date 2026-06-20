@@ -21,15 +21,20 @@
 
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  #services.xserver.desktopManager.plasma5.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services = {
+    desktopManager.plasma6.enable = true;
+
+    # Default display manager for Plasma
+    displayManager.plasma-login-manager.enable = true;
+  };
+
+
   boot.initrd = {
     supportedFilesystems = [ "nfs" ];
-    kernelModules = [ "nfs" "iptable_nat" ];
+    kernelModules = [ "nfs" ];
   };
 
   # Asus lüfter usw

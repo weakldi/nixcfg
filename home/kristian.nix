@@ -47,11 +47,6 @@ let
     jupyterlab
     conda
 
-    torch-bin
-    torchvision-bin
-    tensorflow
-    keras
-
     paho-mqtt
     python-openems
     h5py
@@ -126,9 +121,6 @@ in
     pkgs.sops
     pkgs.prismlauncher
 
-    
-    
-    #pkgs.blender_3_6
 
     pkgs.zoom-us
 
@@ -137,10 +129,6 @@ in
     (myPython.withPackages python_packages)
     pkgs.nodejs # für jupyter-lab
     
-
-
-    pkgs.remmina
-
     #openems
     pkgs.appcsxcad
     pkgs.hyp2mat

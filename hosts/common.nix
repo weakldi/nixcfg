@@ -139,7 +139,7 @@ let
       };
   };
   # Android
-  programs.adb.enable = true;
+  #programs.adb.enable = true;
   programs.java = {
     enable = true;
     package = pkgs.jdk25;
@@ -176,6 +176,7 @@ let
       #mysql84
 
       opencode
+      antigravity-fhs
      ];
   };
 
@@ -217,23 +218,15 @@ let
     # waydroid x11
     #weston
     # support both 32- and 64-bit applications
-    wineWowPackages.stable
+    wineWow64Packages.waylandFull 
 
-    # support 32-bit only
-    #wine
 
-    # support 64-bit only
-    #(wine.override { wineBuild = "wine64"; })
-
-    # wine-staging (version with experimental features)
-    wineWowPackages.staging
 
     # winetricks (all versions)
     winetricks
     #ms fonts for wine
-    wineWowPackages.fonts
-    # native wayland support (unstable)
-    wineWowPackages.waylandFull
+    wineWow64Packages.fonts
+
 
     #Python
     #python3
@@ -303,11 +296,7 @@ let
     qucsator-rf
     xyce # xyce-parallel  nur für riesige Schaltungen
 
-    (kicad.override {
-      python3 = python3.withPackages (ps: with ps; [ 
-        pyclipper 
-      ]);
-    })
+    kicad
    ];
   
   programs.appimage = {
