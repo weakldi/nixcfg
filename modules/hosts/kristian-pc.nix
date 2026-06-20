@@ -55,7 +55,7 @@
     # Nix Helper (nh)
     programs.nh = {
       enable = true;
-      flake = "/home/kristian/nixcfg-dendritic/";
+      flake = "/home/kristian/nixcfg/";
     };
 
     # Nix experimental features and settings
