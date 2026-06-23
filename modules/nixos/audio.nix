@@ -4,7 +4,7 @@
     description = "Audio services and Pipewire/Wireplumber settings.";
   };
 
-  config.nixos.modules.audio = { ... }: {
+  config.nixos.modules.audio = { pkgs, ... }: {
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
@@ -26,5 +26,9 @@
         };
       };
     };
+
+    environment.systemPackages = with pkgs; [
+      pipewire
+    ];
   };
 }

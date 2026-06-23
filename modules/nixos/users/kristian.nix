@@ -93,6 +93,12 @@
         pkgs.nodejs
         pkgs.appcsxcad
         pkgs.hyp2mat
+        pkgs.antigravity
+        pkgs.vscode
+
+        pkgs.firefox
+        pkgs.thunderbird
+
       ];
     };
   };

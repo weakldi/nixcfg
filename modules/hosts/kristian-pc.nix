@@ -28,6 +28,7 @@
       config.nixos.modules.udev-all
       
       # Aspect modules
+      config.nixos.modules.nh
       config.nixos.modules.audio
       config.nixos.modules.printing
       config.nixos.modules.docker
@@ -37,6 +38,7 @@
       config.nixos.modules.hardware
       config.nixos.modules.desktop
       config.nixos.modules.desktop-plasma
+      config.nixos.modules.plecs
     ];
 
     # Host-specific basic settings
@@ -52,11 +54,7 @@
     sops.defaultSopsFormat = "yaml";
     sops.secrets.testValue = {};
 
-    # Nix Helper (nh)
-    programs.nh = {
-      enable = true;
-      flake = "/home/kristian/nixcfg/";
-    };
+    
 
     # Nix experimental features and settings
     nix.settings.experimental-features = [ "nix-command" "flakes" ];

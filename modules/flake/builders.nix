@@ -19,6 +19,7 @@
                   inherit (pkgs.stdenv.hostPlatform) system;
                   config.allowUnfree = true;
                 };
+                plecs = self.packages.${final.system}.plecs or null;
               })
               inputs.mcp-nixos.overlays.default
             ];
