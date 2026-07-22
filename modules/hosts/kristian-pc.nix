@@ -38,7 +38,11 @@
       config.nixos.modules.hardware
       config.nixos.modules.desktop
       config.nixos.modules.desktop-plasma
+      config.nixos.modules.desktop-hyprland
+      config.nixos.modules.desktop-niri
       config.nixos.modules.plecs
+      config.nixos.modules.antigravity
+      config.nixos.modules.antigravity-cli
     ];
 
     # Host-specific basic settings
@@ -98,6 +102,7 @@
       wineWow64Packages.waylandFull
       winetricks
       wineWow64Packages.fonts
+      wine64
       docker
       virt-manager
       virtiofsd
@@ -123,15 +128,12 @@
       freerdp
       docker-compose
       appimage-run
-      gemini-cli
       sigrok-cli
       qucs-s
       ngspice
       qucsator-rf
       xyce
       kicad
-
-      pkgs.mcp-nixos
     ];
 
     # AppImage Support
